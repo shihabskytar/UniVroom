@@ -6,10 +6,23 @@ $isLoggedIn = isLoggedIn();
 $user = null;
 
 if ($isLoggedIn) {
-    $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // If user not found in database, logout the session
+        if (!$user) {
+            session_destroy();
+            $isLoggedIn = false;
+            $user = null;
+        }
+    } catch (Exception $e) {
+        // If database error, treat as not logged in
+        $isLoggedIn = false;
+        $user = null;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -56,6 +69,24 @@ if ($isLoggedIn) {
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            background: #f8f9fa;
+            position: relative;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+        
+        .map-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            color: #666;
+            font-size: 14px;
         }
         
         .feature-card {
@@ -169,7 +200,7 @@ if ($isLoggedIn) {
                     <?php if ($isLoggedIn): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($user['name']); ?>
+                                <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($user['name'] ?? 'User'); ?>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
@@ -279,6 +310,9 @@ if ($isLoggedIn) {
             <!-- Right Panel - Map -->
             <div class="col-lg-8 col-md-12">
                 <div class="map-container">
+                    <div class="map-loading" id="mapLoading">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Loading map...
+                    </div>
                     <div id="map"></div>
                 </div>
             </div>
@@ -365,6 +399,18 @@ if ($isLoggedIn) {
             style: 'mapbox://styles/mapbox/streets-v12',
             center: [90.4125, 23.8103], // Dhaka center
             zoom: 12
+        });
+        
+        // Hide loading indicator when map loads
+        map.on('load', function() {
+            document.getElementById('mapLoading').style.display = 'none';
+            console.log('Map loaded successfully');
+        });
+        
+        // Handle map errors
+        map.on('error', function(e) {
+            console.error('Map error:', e);
+            document.getElementById('mapLoading').innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Map failed to load';
         });
         
         // Add navigation controls

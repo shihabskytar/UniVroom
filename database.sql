@@ -232,12 +232,12 @@ INSERT INTO categories (name, description, icon) VALUES
 ('Food', 'Snacks, beverages', 'fas fa-utensils'),
 ('Stationery', 'Pens, notebooks, supplies', 'fas fa-pen');
 
--- Demo users
+-- Demo users (password: password123)
 INSERT INTO users (name, email, password_hash, role, verified, phone, address) VALUES
-('John Doe', 'john@university.edu', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', TRUE, '+8801234567890', 'Dhaka University, Dhaka'),
-('Jane Smith', 'jane@university.edu', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'rider', TRUE, '+8801234567891', 'BUET, Dhaka'),
-('Mike Wilson', 'mike@university.edu', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'rider', TRUE, '+8801234567892', 'NSU, Dhaka'),
-('Sarah Johnson', 'sarah@university.edu', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', TRUE, '+8801234567893', 'IUT, Gazipur');
+('John Doe', 'john@university.edu', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'user', TRUE, '+8801234567890', 'Dhaka University, Dhaka'),
+('Jane Smith', 'jane@university.edu', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'rider', TRUE, '+8801234567891', 'BUET, Dhaka'),
+('Mike Wilson', 'mike@university.edu', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'rider', TRUE, '+8801234567892', 'NSU, Dhaka'),
+('Sarah Johnson', 'sarah@university.edu', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'user', TRUE, '+8801234567893', 'IUT, Gazipur');
 
 -- Demo riders
 INSERT INTO riders (user_id, vehicle_type, brand, model, plate_no, license_no, status, is_online, current_lat, current_lng, rating, total_trips) VALUES
@@ -265,9 +265,9 @@ INSERT INTO announcements (title, content, type) VALUES
 ('New Safety Guidelines', 'Please follow COVID-19 safety protocols during rides. Wear masks and maintain distance.', 'warning'),
 ('Marketplace Launch', 'Our new marketplace is now live! Buy and sell items with fellow students.', 'info');
 
--- Demo admin
+-- Demo admin (password: password123)
 INSERT INTO admins (username, password_hash, role, name, email) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'super_admin', 'Admin User', 'admin@univroom.com');
+('admin', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'super_admin', 'Admin User', 'admin@univroom.com');
 
 -- Demo settings
 INSERT INTO settings (setting_key, setting_value, description) VALUES
